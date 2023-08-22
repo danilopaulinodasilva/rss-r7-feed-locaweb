@@ -11,19 +11,21 @@ License: GPL-3.0+
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 */
 
-function get_featured_image_url($post_id)
-{
+function get_featured_image_url($post_id) {
   $image_url = '';
   $thumbnail_id = get_post_thumbnail_id($post_id);
+
   if ($thumbnail_id) {
     $image_url = wp_get_attachment_url($thumbnail_id);
+
   }
+
   return $image_url;
+
 }
 
 
-function custom_feed_template()
-{
+function custom_feed_template() {
   // Define o tipo de conteúdo para o feed
   header('Content-Type: application/rss+xml; charset=UTF-8');
 
@@ -37,8 +39,6 @@ function custom_feed_template()
   echo '<title>Meu Feed Personalizado</title>';
   echo '<link>' . get_bloginfo('url') . '</link>';
   echo '<description>Meu Feed Personalizado</description>';
-
-
   // Query personalizada para obter os posts desejados
   $args = array(
     'post_type' => 'post',
@@ -47,40 +47,41 @@ function custom_feed_template()
   $query = new WP_Query($args);
 
   // Loop através dos posts
-if ($query->have_posts()) {
-  while ($query->have_posts()) {
-    $query->the_post();
+  if ($query->have_posts()) {
+    while ($query->have_posts()) {
+      $query->the_post();
 
-    // Obtém os dados do post
-    $post_title = get_the_title();
-    $post_link = get_permalink();
+      // Obtém os dados do post
+      $post_title = get_the_title();
+      $post_link = get_permalink();
 
-        // Obter a data formatada do post
-        $post_date = get_the_time('Y-m-d H:i:s');
-    $post_date_pubdate = date(DATE_RFC2822, strtotime($post_date));
+      // Obter a data formatada do post
+      $post_date = get_the_time('Y-m-d H:i:s');
+      $post_date_pubdate = date(DATE_RFC2822, strtotime($post_date));
 
-    $post_author = get_the_author();
-    $post_category = get_the_category();
-    $post_description = get_the_excerpt();
-    $post_featured_image = get_featured_image_url(get_the_ID()); // Obtém a URL da imagem em destaque
+      $post_author = get_the_author();
+      $post_category = get_the_category();
+      $post_description = get_the_excerpt();
+      $post_featured_image = get_featured_image_url(get_the_ID()); // Obtém a URL da imagem em destaque
 
-    // Obtém o conteúdo formatado do post
-    $post_content = get_the_content();
-    $post_content_encoded = '<![CDATA[' . htmlspecialchars($post_content) . ']]>';
+      // Obtém o conteúdo formatado do post
+      $post_content = get_the_content();
+      $post_content_encoded = '<![CDATA[' . htmlspecialchars($post_content) . ']]>';
 
-    // Inicia a exibição do item no feed
-    echo '<item>';
-    echo '<title>' . html_entity_decode(get_the_title(), ENT_QUOTES, 'UTF-8') . '</title>';
-    echo '<link>' . htmlspecialchars($post_link, ENT_XML1) . '</link>';
-    echo '<guid isPermaLink="false">' . htmlspecialchars($post_link, ENT_XML1) . '</guid>';
-    echo '<pubDate>' . $post_date_pubdate . '</pubDate>';
-    echo '<dc:creator>' . htmlspecialchars($post_author, ENT_XML1) . '</dc:creator>';
+      // Inicia a exibição do item no feed
+      echo '<item>';
+      echo '<title>' . html_entity_decode(get_the_title(), ENT_QUOTES, 'UTF-8') . '</title>';
+      echo '<link>' . htmlspecialchars($post_link, ENT_XML1) . '</link>';
+      echo '<guid isPermaLink="false">' . htmlspecialchars($post_link, ENT_XML1) . '</guid>';
+      echo '<pubDate>' . $post_date_pubdate . '</pubDate>';
+      echo '<dc:creator>' . htmlspecialchars($post_author, ENT_XML1) . '</dc:creator>';
 
-    foreach ($post_category as $category) {
-      echo '<category>' . htmlspecialchars($category->name, ENT_XML1) . '</category>';
-    }
+      foreach ($post_category as $category) {
+        echo '<category>' . htmlspecialchars($category->name, ENT_XML1) . '</category>';
 
-    echo '<description>' . htmlspecialchars($post_description, ENT_XML1) . '</description>';
+      }
+
+      echo '<description>' . htmlspecialchars($post_description, ENT_XML1) . '</description>';
       echo '<content:encoded><![CDATA[';
       $post_featured_image = get_featured_image_url(get_the_ID());
       echo '<img src="' . esc_url($post_featured_image) . '" alt="" />';
@@ -88,9 +89,9 @@ if ($query->have_posts()) {
       echo ']]></content:encoded>';
       echo '</item>';
 
-  }
-}
+    }
 
+  }
 
   // Finaliza o feed
   echo '</channel>';
@@ -101,14 +102,15 @@ if ($query->have_posts()) {
 
   // Encerra a execução do script
   exit;
+
 }
 
 add_action('do_feed_custom', 'custom_feed_template');
 
 // Registra o feed personalizado
-function register_custom_feed()
-{
-  add_feed('rssr7', 'custom_feed_template');
+function register_custom_feed() {
+  add_feed('rssr7', 'custom_feed_template'); // Altere rssr7 para o nome do feed desejado, ou seja, como irá aparecer na URL
+
 }
 
 add_action('init', 'register_custom_feed');
