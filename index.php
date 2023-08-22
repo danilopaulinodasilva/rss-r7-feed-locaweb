@@ -3,6 +3,12 @@
 /*
 Plugin Name: RSS Feed Portal R7 Locaweb
 Description: Plugin para criar um feed RSS para o Portal R7 da Rede Record personalizado na hospedagem da Locaweb
+Version: 1.0.0
+Author: Danilo P. da Silva
+Author URI: https://dps.tec.br
+Plug-in URI: https://github.com/danilopaulinodasilva/rss-r7-feed-locaweb
+License: GPL-3.0+
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
 */
 
 function get_featured_image_url($post_id)
