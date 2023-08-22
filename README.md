@@ -1,6 +1,6 @@
-# RSS Feed Portal R7 AWS WordPress Plugin
+# RSS Feed Portal R7 Locaweb WordPress Plugin
 
-O "RSS Feed Portal R7 AWS" é um plugin do WordPress que permite criar um feed RSS personalizado para o Portal R7 da Rede Record, hospedado na Locaweb.
+O "RSS Feed Portal R7 Locaweb" é um plugin do WordPress que permite criar um feed RSS personalizado para o Portal R7 da Rede Record, hospedado na Locaweb.
 
 ## Funcionalidades
 
